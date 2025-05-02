@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-6 text-center">Sentiment Analysis</h1>
+        <p class="text-gray-600 mb-4 text-center">Enter your text to analyze its sentiment (positive/negative).</p>
+        <form action="{{ url_for('analyze') }}" method="post" class="space-y-4">
+            <div>
+                <label for="text" class="block text-sm font-medium text-gray-700">Enter your text</label>
+                <textarea id="text" name="text" rows="4" 
+                          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"></textarea>
+            </div>
+            <button type="submit" 
+                    class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-200">
+                Analyze Sentiment
+            </button>
+        </form>
+        {% if result %}
+        <div class="mt-6 p-4 bg-gray-50 rounded-md">
+            <h2 class="text-lg font-semibold text-gray-800">Analysis Result:</h2>
+            <p class="text-gray-700 mt-2">
+                <span class="font-medium">Sentiment:</span> 
+                <span class="capitalize {{ 'text-green-600' if result.sentiment == 'positive' else 'text-red-600' }}">{{ result.sentiment }}</span>
+            </p>
+            <p class="text-gray-700">
+                <span class="font-medium">Confidence:</span> {{ result.confidence }}%
+            </p>
+        </div>
+        {% endif %}
+        {% if error %}
+        <div class="mt-6 p-4 bg-red-100 text-red-700 rounded-md">
+            <p><span class="font-medium">Error:</span> {{ error }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
